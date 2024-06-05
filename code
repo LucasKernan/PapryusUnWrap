@@ -1,0 +1,6 @@
+tiff_3d_viewer/
+├── .gitignore
+├── LICENSE
+├── README.md
+├── requirements.txt
+└── tiff_3d_viewer.py
