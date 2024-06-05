@@ -26,6 +26,22 @@ def visualize_slice(stack, index):
     plt.title(f'Slice {index}')
     plt.show()
 
+def unwrap_papyrus(stack):
+    """Unwrap the papyrus using a basic approach."""
+    height, width = stack.shape[1], stack.shape[2]
+    unwrapped_image = np.zeros((height, width * stack.shape[0]), dtype=np.uint8)
+
+    for i in range(stack.shape[0]):
+        enhanced_slice = enhance_contrast(stack[i])
+        unwrapped_image[:, i * width:(i + 1) * width] = enhanced_slice
+
+    return unwrapped_image
+
+def save_unwrapped_image(unwrapped_image, output_path):
+    """Save the unwrapped image as a JPEG file."""
+    img = Image.fromarray(unwrapped_image)
+    img.save(output_path)
+
 # Replace 'path_to_tiff_directory' with the actual path to your TIFF images
 tiff_directory = 'path_to_tiff_directory'
 tiff_stack = load_tiff_stack(tiff_directory)
@@ -34,12 +50,8 @@ tiff_stack = load_tiff_stack(tiff_directory)
 middle_slice = len(tiff_stack) // 2
 visualize_slice(tiff_stack, middle_slice)
 
-# Skeleton for unwrapping (to be implemented)
-def unwrap_papyrus(stack):
-    """Unwrap the papyrus using a basic approach (to be improved)."""
-    # Placeholder for unwrapping algorithm
-    # This is a complex problem that would need advanced techniques
-    pass
-
-# Example usage of the unwrapping function (currently does nothing)
-unwrap_papyrus(tiff_stack)
+# Unwrap the papyrus and save the result
+unwrapped_papyrus = unwrap_papyrus(tiff_stack)
+output_path = 'unwrapped_papyrus.jpg'
+save_unwrapped_image(unwrapped_papyrus, output_path)
+print(f"Unwrapped papyrus saved to {output_path}")
