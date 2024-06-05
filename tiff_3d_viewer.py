@@ -7,7 +7,7 @@ import cv2
 def load_tiff_stack(directory):
     """Load a stack of TIFF images from a directory."""
     tiff_stack = []
-    for filename in sorted(os.listdir(directory)):
+    for filename in sorted(os.listdir(directory), key=lambda x: int(os.path.splitext(x)[0])):
         if filename.endswith('.tiff') or filename.endswith('.tif'):
             img = Image.open(os.path.join(directory, filename))
             tiff_stack.append(np.array(img))
@@ -42,8 +42,8 @@ def save_unwrapped_image(unwrapped_image, output_path):
     img = Image.fromarray(unwrapped_image)
     img.save(output_path)
 
-# Replace 'path_to_tiff_directory' with the actual path to your TIFF images
-tiff_directory = 'path_to_tiff_directory'
+# Directory within the repository containing the TIFF images
+tiff_directory = 'ImageFiles'
 tiff_stack = load_tiff_stack(tiff_directory)
 
 # Visualize the middle slice
